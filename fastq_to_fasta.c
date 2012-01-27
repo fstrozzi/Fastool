@@ -43,6 +43,7 @@ int main(int argc, char const *argv[])
 					if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
 					i++;
 				}
+				rev_seq[i] = '\0';
 				printf(">%s\n", seq->name.s);
 				printf("%s\n", rev_seq);	
 			}
