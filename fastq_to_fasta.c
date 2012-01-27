@@ -1,5 +1,5 @@
 /*
-Copyright (C) Francesco Strozzi <francesco.strozzi@gmail.com>
+Copyright (C) 2012 Francesco Strozzi <francesco.strozzi@gmail.com>
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
