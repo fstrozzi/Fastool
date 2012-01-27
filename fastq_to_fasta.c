@@ -24,6 +24,11 @@ int main(int argc, char const *argv[])
 	file = argv[1];
 	gzFile fp;
 
+	if (argc == 1) {
+		printf("Usage: %s sequences.fastq (--rev) [for reverse complement]\n",argv[0]);
+		exit(0);
+	}
+
 	if (!(fp = gzopen(file,"r"))) {
 		printf("No %s file found!\n", file);
 		exit(0);
@@ -55,5 +60,8 @@ int main(int argc, char const *argv[])
 			printf("%s\n", seq->seq.s);	
 		}
 	}
-	return(0);
+
+	kseq_destroy(seq);
+	gzclose(fp);
+	return 0;
 }
