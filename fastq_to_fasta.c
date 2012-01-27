@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
 	gzFile fp;
 
 	if (argc == 1) {
-		printf("Usage: %s sequences.fastq (--rev) [for reverse complement]\n",argv[0]);
+		printf("Usage: %s sequences.fastq (--rev) [for reverse complement] (--append) string_to_append_to_header \n",argv[0]);
 		exit(0);
 	}
 
@@ -34,36 +34,60 @@ int main(int argc, char const *argv[])
 		exit(0);
 	}
 
+	int reverse_complement = 0;
+	char *string_to_append;
+	int c;
+	for(c = 2; c < argc; ++c)
+	{
+		if(strcmp(argv[c],"--rev") == 0) reverse_complement = 1;
+		if((strcmp(argv[c],"--append") == 0)) {
+			if (c+1 == argc) {
+				printf("String to append is missing!\n");
+				exit(0);
+			}
+			else {
+				string_to_append = argv[c+1];	
+			}
+		}
+	}
 	kseq_t *seq;
 	seq = kseq_init(fp);
-	if (argc >= 3) {
-		if (strcmp(argv[2],"--rev") == 0) {
-			while (kseq_read(seq) >= 0) {
-				int i = 0;
-				char rev_seq[seq->seq.l];
-				while(i < seq->seq.l) {
-					if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') rev_seq[i] = 'T';
-					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
-					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') rev_seq[i] = 'A';
-					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
-					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N') rev_seq[i] = 'N';
-					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U') rev_seq[i] = 'A';
-					i++;
-				}
-				rev_seq[i] = '\0';
-				printf(">%s\n", seq->name.s);
-				printf("%s\n", rev_seq);	
+	if (reverse_complement) {
+		while (kseq_read(seq) >= 0) {
+			char rev_seq[seq->seq.l];
+			int i;
+			for(i = 0; i < seq->seq.l; ++i) {
+				if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') rev_seq[i] = 'T';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') rev_seq[i] = 'A';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N') rev_seq[i] = 'N';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U') rev_seq[i] = 'A';
 			}
+			rev_seq[i] = '\0';
+			print_seq(seq->name.s, &rev_seq, string_to_append);	
 		}
 	}	
 	else {
 		while (kseq_read(seq) >= 0) {
-			printf(">%s\n", seq->name.s);
-			printf("%s\n", seq->seq.s);	
+			print_seq(seq->name.s, seq->seq.s, string_to_append);
 		}
 	}
 
 	kseq_destroy(seq);
 	gzclose(fp);
+	return 0;
+}
+
+
+int print_seq(char *name, char *sequence, char *string_to_append) {
+
+	if (string_to_append) {
+		printf(">%s%s\n", name, string_to_append);
+	}
+	else {
+		printf(">%s\n", name);
+	}
+	printf("%s\n", sequence);
 	return 0;
 }
