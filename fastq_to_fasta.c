@@ -43,9 +43,11 @@ int main(int argc, char const *argv[])
 				char rev_seq[seq->seq.l];
 				while(i < seq->seq.l) {
 					if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') rev_seq[i] = 'T';
-					if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
-					if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') rev_seq[i] = 'A';
-					if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
+					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
+					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') rev_seq[i] = 'A';
+					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
+					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N') rev_seq[i] = 'N';
+					else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U') rev_seq[i] = 'A';
 					i++;
 				}
 				rev_seq[i] = '\0';
