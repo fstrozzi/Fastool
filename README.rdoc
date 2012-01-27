@@ -7,10 +7,10 @@ Based on KSeq library from Heng Li.
 
 Clone this repository and run make.
 
-== Usage
+= Usage
 
-fastq_to_fasta sequences.fastq > sequences.fasta
-fastq_to_fasta sequences.fastq --rev > reverse_complement.fasta
+  fastq_to_fasta sequences.fastq > sequences.fasta
+  fastq_to_fasta sequences.fastq --rev > reverse_complement.fasta
 
 
 = License
