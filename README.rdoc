@@ -1,8 +1,19 @@
 = FastQ2A
 
 A simple FastQ to FastA converter with reverse complement options.
+Based on KSeq library from Heng Li.
 
-== License
+= Installation
+
+Clone this repository and run make.
+
+== Usage
+
+fastq_to_fasta sequences.fastq > sequences.fasta
+fastq_to_fasta sequences.fastq --rev > reverse_complement.fasta
+
+
+= License
 
    Permission is hereby granted, free of charge, to any person obtaining
    a copy of this software and associated documentation files (the
