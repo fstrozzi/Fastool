@@ -2,6 +2,8 @@ FastQ2A
 =======
 
 A simple FastQ to FastA converter with reverse complement options.
+Use the --append option to add a string to each sequence header.
+
 Based on KSeq library from Heng Li.
 
 Installation
@@ -12,8 +14,9 @@ Clone this repository and run make.
 Usage
 -----
 
-    fastq_to_fasta sequences.fastq > sequences.fasta
-    fastq_to_fasta sequences.fastq --rev > reverse_complement.fasta
+    FastQ2A sequences.fastq > sequences.fasta
+    FastQ2A sequences.fastq --rev > reverse_complement.fasta
+    FastQ2A sequences.fasta --append /1 > forward_sequences.fasta
 
 License
 -------
