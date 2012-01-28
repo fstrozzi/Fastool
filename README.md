@@ -1,8 +1,14 @@
 FastQ2A
 =======
 
-A simple and quick FastQ to FastA converter with reverse complement options.
-Use the --append option to add a string to each sequence header.
+A simple and quick tool to read huge FastQ and FastA files and manipulate them. 
+
+If provided with a FastQ file, the tool will convert it to FastA format.
+
+With the --rev option can be used to reverse complement huge sequences dataset (both FastQ and FastA).
+
+Use the --append option to add a string to each sequence header (both FastQ and FastA).
+
 
 Based on KSeq library from Heng Li.
 
