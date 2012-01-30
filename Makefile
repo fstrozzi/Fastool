@@ -1,6 +1,5 @@
-all:kseq.h fastq_to_fasta.c
-	$(CC) -g -O2 fastq_to_fasta.c -o FastQ2A -lz
+all:kseq.h fastool.c
+	$(CC) -std=c99 -O2 fastool.c -o fastool -lz
 
 clean:
-	rm -f *.o fastq_to_fasta
-	rm -fr *.dSYM
+	rm -f *.o fastool
