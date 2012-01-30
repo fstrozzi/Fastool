@@ -20,14 +20,15 @@ KSEQ_INIT(gzFile, gzread)
 
 int main(int argc, char const *argv[])
 {
+
+	if (argc == 1) {
+		printf("Usage: %s sequences.fastq/a (--rev) [for reverse complement] (--append) string_to_append_to_header \n",argv[0]);
+		exit(0);
+	}
+
 	char *file;
 	file = argv[1];
 	gzFile fp;
-
-	if (argc == 1) {
-		printf("Usage: %s sequences.fastq (--rev) [for reverse complement] (--append) string_to_append_to_header \n",argv[0]);
-		exit(0);
-	}
 
 	if (!(fp = gzopen(file,"r"))) {
 		printf("No %s file found!\n", file);
@@ -80,7 +81,19 @@ int main(int argc, char const *argv[])
 }
 
 
-int print_seq(char *name, char *sequence, char *string_to_append) {
+int print_fasta(char *name, char *sequence, char *string_to_append) {
+
+	if (string_to_append) {
+		printf(">%s%s\n", name, string_to_append);
+	}
+	else {
+		printf(">%s\n", name);
+	}
+	printf("%s\n", sequence);
+	return 0;
+}
+
+int print_fastq(char *name, char *sequence, char *string_to_append) {
 
 	if (string_to_append) {
 		printf(">%s%s\n", name, string_to_append);
