@@ -3,7 +3,7 @@ Fastool
 
 A simple and quick tool to read huge FastQ and FastA files and manipulate them.
 
-Use the KSeq library (from Heng Li) to access the FastQ/A files.
+It makes use of the KSeq library (from Heng Li) to access the FastQ/A files.
 
 Installation
 ------------
