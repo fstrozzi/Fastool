@@ -1,16 +1,9 @@
-FastQ2A
+Fastool
 =======
 
-A simple and quick tool to read huge FastQ and FastA files and manipulate them. 
+A simple and quick tool to read huge FastQ and FastA files and manipulate them.
 
-If provided with a FastQ file, the tool will convert it to FastA format.
-
-With the --rev option can be used to reverse complement huge sequences dataset (both FastQ and FastA).
-
-Use the --append option to add a string to each sequence header (both FastQ and FastA).
-
-
-Based on KSeq library from Heng Li.
+Use the KSeq library (from Heng Li) to access the FastQ/A files.
 
 Installation
 ------------
@@ -20,10 +13,20 @@ Clone this repository and run make.
 Usage
 -----
 
-    FastQ2A sequences.fastq > sequences.fasta
-    FastQ2A sequences.fastq --rev > reverse_complement.fasta
-    FastQ2A sequences.fasta --append /1 > forward_sequences.fasta
-    FastQ2A sequences.fasta --append /2 --rev > reverse_sequences.fasta
+     fastool sequences.fastq/a (--rev) (--append [string_to_append_to_header]) (--to-fasta)
+
+--to-fasta (optional): convert FastQ files to FastA format.
+
+--rev (optional): reverse complement all the sequences in the dataset (both FastQ and FastA).
+
+--append (optional): add a string at the end of each sequence header (both FastQ and FastA).
+
+Examples:
+
+    fastool sequences.fastq --to-fasta > sequences.fasta
+    fastool sequences.fastq --rev > reverse_complement.fastq
+    fastool sequences.fasta --append /1 > forward_sequences.fasta
+    fastool sequences.fasta --append /2 --rev > reverse_sequences.fasta
 
 License
 -------
