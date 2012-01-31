@@ -21,13 +21,28 @@ Usage
 
 --append (optional): add a string at the end of each sequence header (both FastQ and FastA).
 
-Examples:
+Examples
+--------
 
-    fastool sequences.fastq --to-fasta > sequences.fasta (FastQ to FastA conversion)
-    fastool sequences.fastq --rev > reverse_complement.fastq (return the reverse complement)
-    fastool sequences.fasta --append /1 > forward_sequences.fasta (append '/1' to the end of the sequence ID)
-    fastool sequences.fasta --append /2 --rev > reverse_sequences.fasta (append string and return reverse complement)
-    fastool sequences.fastq.gz --to-fasta > sequences.fasta (directly read compressed files)
+FastQ to FastA conversion
+
+    fastool sequences.fastq --to-fasta > sequences.fasta
+
+Return the reverse complement
+
+    fastool sequences.fastq --rev > reverse_complement.fastq
+
+Append '/1' to the end of the sequence ID
+
+    fastool sequences.fasta --append /1 > forward_sequences.fasta
+
+Append '/2' to the end of the sequence ID and return the reverse complement
+
+    fastool sequences.fasta --append /2 --rev > reverse_sequences.fasta
+
+Can read compressed files directly
+
+    fastool sequences.fastq.gz --to-fasta > sequences.fasta
 
 License
 -------
