@@ -88,19 +88,19 @@ int main(int argc, char *argv[])
 
 	if (reverse_complement) {
 		while (kseq_read(seq) >= 0) {
-			char tmp_seq[seq->seq.l];
+			char rev_seq[seq->seq.l];
 			char *sequence_to_print[3];
 			for(int i = 0; i < seq->seq.l; ++i) {
-				if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') tmp_seq[i] = 'T';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') tmp_seq[i] = 'G';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') tmp_seq[i] = 'A';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') tmp_seq[i] = 'C';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N') tmp_seq[i] = 'N';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U') tmp_seq[i] = 'A';
+				if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') rev_seq[i] = 'T';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') rev_seq[i] = 'A';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N') rev_seq[i] = 'N';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U') rev_seq[i] = 'A';
 			}
-			tmp_seq[seq->seq.l] = '\0';
+			rev_seq[seq->seq.l] = '\0';
 			sequence_to_print[0] = seq->name.s;
-			sequence_to_print[1] = tmp_seq;
+			sequence_to_print[1] = rev_seq;
 			
 			char quality[seq->qual.l];
 			if (seq->qual.l) {
