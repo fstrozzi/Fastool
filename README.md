@@ -23,10 +23,11 @@ Usage
 
 Examples:
 
-    fastool sequences.fastq --to-fasta > sequences.fasta
-    fastool sequences.fastq --rev > reverse_complement.fastq
-    fastool sequences.fasta --append /1 > forward_sequences.fasta
-    fastool sequences.fasta --append /2 --rev > reverse_sequences.fasta
+    fastool sequences.fastq --to-fasta > sequences.fasta (FastQ to FastA conversion)
+    fastool sequences.fastq --rev > reverse_complement.fastq (return the reverse complement)
+    fastool sequences.fasta --append /1 > forward_sequences.fasta (append '/1' to the end of the sequence ID)
+    fastool sequences.fasta --append /2 --rev > reverse_sequences.fasta (append string and return reverse complement)
+    fastool sequences.fastq.gz --to-fasta > sequences.fasta (directly read compressed files)
 
 License
 -------
