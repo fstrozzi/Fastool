@@ -50,7 +50,7 @@ Can process more then one file
     
 Can be used with pipes
 
-    cat sequences.fastq | fastool --to-fasta --rev > reverse_complement.fastq        
+    cat sequences.fastq | fastool --to-fasta --rev > reverse_complement.fasta        
 
 License
 -------
