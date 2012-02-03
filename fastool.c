@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 					printf("No %s file found!\n", argv[i]);
 					exit(0);
 				}
-				∏process_input(fp,reverse_complement, string_to_append, to_fasta);
+				process_input(fp,reverse_complement, string_to_append, to_fasta);
 				gzclose(fp);
 		}
 	}
