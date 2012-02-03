@@ -95,6 +95,10 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa) {
 	return 0;
 }
 
+int print_help(char *command_line) {
+		printf("Usage: %s (--rev) (--append [string_to_append_to_header]) (--to-fasta) sequences_1.fastq/a sequences_2.fastq/a ... \n",command_line);
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -103,11 +107,16 @@ int main(int argc, char *argv[])
 	int to_fasta = 0;
 	int read_from_file = 0;
 
+	if(argc == 1) {
+		print_help(argv[0]);
+		exit(0);
+	}
+
 	for(int i = 1; i < argc; ++i)
 	{
 		if(strcmp(argv[i],"--rev") == 0) reverse_complement = 1;
 		else if (strcmp(argv[1],"-h") == 0) {
-			printf("Usage: %s (--rev) (--append [string_to_append_to_header]) (--to-fasta) sequences_1.fastq/a sequences_2.fastq/a ... \n",argv[0]);
+			print_help(argv[0]);
 			exit(0);
 		}
 		else if(strcmp(argv[i],"--to-fasta") == 0) to_fasta = 1;
