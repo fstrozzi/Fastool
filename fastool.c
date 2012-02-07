@@ -42,7 +42,7 @@ int print_fastq(char *append, char *s[]) {
 	return 0;
 }
 
-int print_seq(char *append, int to_fasta, char *s[3]) {
+void print_seq(char *append, int to_fasta, char *s[3]) {
 	if (to_fasta || s[2] == NULL) print_fasta(append, s);
 	else print_fastq(append, s);
 }
@@ -56,7 +56,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa) {
 	if (rev_comp) {
 	while (kseq_read(seq) >= 0) {
 		char rev_seq[seq->seq.l];
-		char *sequence_to_print[3];
+		char *sequence_to_print[3] = {[2] = NULL};
 		for(int i = 0; i < seq->seq.l; ++i) {
 			if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') rev_seq[i] = 'T';
 			else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
@@ -95,7 +95,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa) {
 	return 0;
 }
 
-int print_help(char *command_line) {
+void print_help(char *command_line) {
 		printf("Usage: %s (--rev) (--append [string_to_append_to_header]) (--to-fasta) sequences_1.fastq/a sequences_2.fastq/a ... \n",command_line);
 }
 
