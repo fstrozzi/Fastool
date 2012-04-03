@@ -13,7 +13,7 @@ Clone this repository and run make.
 Usage
 -----
 
-     fastool (--rev) (--append [string_to_append_to_header]) (--to-fasta) sequences_1.fastq/a sequences_2.fastq/a ...
+     Usage: %s (--rev) (--append [string_to_append_to_header]) (--to-fasta) (--illumina-trinity) sequences_1.fastq/a sequences_2.fastq/a ...
 
 --to-fasta (optional): convert FastQ files to FastA format.
 
@@ -21,8 +21,14 @@ Usage
 
 --append (optional): add a string at the end of each sequence header (both FastQ and FastA).
 
+--illumina-trinity (optional): directly converts Casava 1.8+ FastQ ID format to Trinity Fasta input format (appending /1 and /2 for PE reads)
+
 Examples
 --------
+
+FastQ conversion for Trinity pipeline
+    
+    fastool --illumina-trinity sequences.fastq > sequences.fasta
 
 FastQ to FastA conversion
 
