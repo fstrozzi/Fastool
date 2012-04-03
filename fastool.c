@@ -46,12 +46,12 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			char rev_seq[seq->seq.l];
 			char *sequence_to_print[4] = {[2] = NULL};
 			for(int i = 0; i < seq->seq.l; ++i) {
-				if (*(seq->seq.s + seq->seq.l-1 - i) == 'A') rev_seq[i] = 'T';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C') rev_seq[i] = 'G';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T') rev_seq[i] = 'A';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G') rev_seq[i] = 'C';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N') rev_seq[i] = 'N';
-				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U') rev_seq[i] = 'A';
+				if (*(seq->seq.s + seq->seq.l-1 - i) == 'A' || *(seq->seq.s + seq->seq.l-1 - i) == 'a') rev_seq[i] = 'T';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C' || *(seq->seq.s + seq->seq.l-1 - i) == 'c') rev_seq[i] = 'G';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'T' || *(seq->seq.s + seq->seq.l-1 - i) == 't') rev_seq[i] = 'A';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'G' || *(seq->seq.s + seq->seq.l-1 - i) == 'g') rev_seq[i] = 'C';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'N' || *(seq->seq.s + seq->seq.l-1 - i) == 'n') rev_seq[i] = 'N';
+				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'U' || *(seq->seq.s + seq->seq.l-1 - i) == 'u') rev_seq[i] = 'A';
 			}
 			rev_seq[seq->seq.l] = '\0';
 			sequence_to_print[0] = seq->name.s;
@@ -82,6 +82,9 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			char *sequence_to_print[4];
 			sequence_to_print[0] = seq->name.s;
 			sequence_to_print[1] = seq->seq.s;
+			for (int i=0;i < strlen(sequence_to_print[1]); i++) {
+    			sequence_to_print[1][i] = toupper(sequence_to_print[1][i]);
+			}
 			if (seq->qual.s) sequence_to_print[2] = seq->qual.s;
 			if (seq->comment.s) {
 				sequence_to_print[3] = seq->comment.s;
