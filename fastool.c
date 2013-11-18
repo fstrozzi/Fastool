@@ -41,6 +41,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 
 	kseq_t *seq;
 	seq = kseq_init(stream);
+	int count = 0;
 	if (rev_comp) {
 		while (kseq_read(seq) >= 0) {
 			char rev_seq[seq->seq.l];
@@ -75,6 +76,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 				sequence_to_print[3] = NULL;
 			}
 			print_seq(string, to_fa, sequence_to_print, ilmn_trin);
+			count++;
 			}
 	}
 	else {
@@ -93,10 +95,12 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 				sequence_to_print[3] = NULL;
 			}
 			print_seq(string, to_fa, sequence_to_print, ilmn_trin);
+			count++;
 		}
 	}
 
 	kseq_destroy(seq);
+	fprintf(stderr,"Sequences parsed: %d\n",count);
 	return 0;
 }
 
