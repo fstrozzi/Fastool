@@ -41,8 +41,9 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 	kseq_t *seq;
 	seq = kseq_init(stream);
 	int count = 0;
+	int res = 0;
 	if (rev_comp) {
-		while (kseq_read(seq) >= 0) {
+		while ((res = kseq_read(seq)) >= 0) {
 			
 			char *sequence_to_print[4] = {[2] = NULL};
 	
@@ -79,11 +80,11 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			print_seq(ilmn_trin, string, to_fa, sequence_to_print );
 			count++;
 			}
-			
+		
 
 	}
 	else {
-		while (kseq_read(seq) >= 0) {
+		while ((res = kseq_read(seq)) >= 0) {
 			char *sequence_to_print[4];
 			sequence_to_print[0] = seq->name.s;
 			sequence_to_print[1] = seq->seq.s;
@@ -103,8 +104,16 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 	}
 
 	kseq_destroy(seq);
+	gzclose(stream);
 	fprintf(stderr,"Sequences parsed: %d\n",count);
-	return 0;
+	if (res == -1) {
+		exit(0);
+	}
+	else {
+		fprintf (stderr,"fastool: parsing error, truncated sequence and/or quality detected!\n");
+		exit(1);
+	}
+	
 }
 
 void print_help(char *command_line) {
@@ -122,7 +131,7 @@ int main(int argc, char *argv[])
 
 	if(argc == 1) {
 		print_help(argv[0]);
-		exit(0);
+		exit(1);
 	}
 
 	for(int i = 1; i < argc; ++i)
@@ -130,13 +139,13 @@ int main(int argc, char *argv[])
 		if(strcmp(argv[i],"--rev") == 0) reverse_complement = 1;
 		else if (strcmp(argv[1],"-h") == 0) {
 			print_help(argv[0]);
-			exit(0);
+			exit(1);
 		}
 		else if(strcmp(argv[i],"--to-fasta") == 0) to_fasta = 1;
 		else if((strcmp(argv[i],"--append") == 0)) {
 			if (i+1 == argc) {
 				printf("String to append is missing!\n");
-				exit(0);
+				exit(1);
 			}
 			else {
 				string_to_append = argv[i+1];
@@ -147,16 +156,15 @@ int main(int argc, char *argv[])
 		else {
 			if (illumina_trinity && string_to_append) {
 				printf("You are using both --append and --illumina-trinity options. You can only provide one or the other.\n");
-				exit(0);
+				exit(1);
 			}
 			read_from_file = 1;
 			gzFile fp;
 			if (!(fp = gzopen(argv[i],"r"))) {
 				printf("No %s file found!\n", argv[i]);
-				exit(0);
+				exit(1);
 			}
 			process_input(fp,reverse_complement, string_to_append, to_fasta, illumina_trinity);
-			gzclose(fp);
 		}
 	}
 	if (!read_from_file)
@@ -164,7 +172,6 @@ int main(int argc, char *argv[])
 		gzFile fp_stdin;
 		fp_stdin = gzdopen(fileno(stdin), "rb");
 		process_input(fp_stdin, reverse_complement, string_to_append, to_fasta, illumina_trinity);
-		gzclose(fp_stdin);
 	}
 
 }
