@@ -18,7 +18,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 KSEQ_INIT(gzFile, gzread)
 
-int print_seq(char *append, int to_fasta, char *s[], int ilmn_trinity) {
+int print_seq(int ilmn_trinity, char *append, int to_fasta, char *s[]) {
 	if (ilmn_trinity && (s[0][strlen(s[0])-2] != '/') && s[3] != NULL) {
 		printf(">%s/%c\n", s[0], s[3][0]);
 	}
@@ -38,16 +38,16 @@ int print_seq(char *append, int to_fasta, char *s[], int ilmn_trinity) {
 
 int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_trin) {
 
-
 	kseq_t *seq;
 	seq = kseq_init(stream);
 	int count = 0;
 	if (rev_comp) {
 		while (kseq_read(seq) >= 0) {
+			
 			char *sequence_to_print[4] = {[2] = NULL};
 	
 			char quality[seq->qual.l];
-			if (seq->qual.s) {
+			if (seq->qual.s && !ilmn_trin) {
 				for (int i = 0; i < seq->qual.l; ++i)
 				{
 					quality[i] = *(seq->qual.s + seq->qual.l -1 -i);
@@ -69,17 +69,18 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			sequence_to_print[0] = seq->name.s;
 			sequence_to_print[1] = rev_seq;
 			
-			
-
 			if (seq->comment.s) {
 				sequence_to_print[3] = seq->comment.s;
 			}
 			else {
 				sequence_to_print[3] = NULL;
 			}
-			print_seq(string, to_fa, sequence_to_print, ilmn_trin);
+			
+			print_seq(ilmn_trin, string, to_fa, sequence_to_print );
 			count++;
 			}
+			
+
 	}
 	else {
 		while (kseq_read(seq) >= 0) {
@@ -96,7 +97,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			else {
 				sequence_to_print[3] = NULL;
 			}
-			print_seq(string, to_fa, sequence_to_print, ilmn_trin);
+			print_seq(ilmn_trin, string, to_fa, sequence_to_print);
 			count++;
 		}
 	}
