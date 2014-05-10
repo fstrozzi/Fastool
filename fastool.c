@@ -44,8 +44,19 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 	int count = 0;
 	if (rev_comp) {
 		while (kseq_read(seq) >= 0) {
-			char rev_seq[seq->seq.l];
 			char *sequence_to_print[4] = {[2] = NULL};
+	
+			char quality[seq->qual.l];
+			if (seq->qual.s) {
+				for (int i = 0; i < seq->qual.l; ++i)
+				{
+					quality[i] = *(seq->qual.s + seq->qual.l -1 -i);
+				}
+				quality[seq->qual.l] = '\0';
+				sequence_to_print[2] = quality;
+			}
+			
+			char rev_seq[seq->seq.l];
 			for(int i = 0; i < seq->seq.l; ++i) {
 				if (*(seq->seq.s + seq->seq.l-1 - i) == 'A' || *(seq->seq.s + seq->seq.l-1 - i) == 'a') rev_seq[i] = 'T';
 				else if (*(seq->seq.s + seq->seq.l-1 - i) == 'C' || *(seq->seq.s + seq->seq.l-1 - i) == 'c') rev_seq[i] = 'G';
@@ -59,15 +70,6 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			sequence_to_print[1] = rev_seq;
 			
 			
-			char quality[seq->qual.l];
-			if (seq->qual.s) {
-				for (int i = 0; i < seq->qual.l; ++i)
-				{
-					quality[i] = *(seq->qual.s + seq->qual.l -1 -i);
-				}
-				quality[seq->qual.l] = '\0';
-				sequence_to_print[2] = quality;
-			}
 
 			if (seq->comment.s) {
 				sequence_to_print[3] = seq->comment.s;
