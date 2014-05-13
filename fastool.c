@@ -12,11 +12,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <zlib.h>
 #include "kseq.h"
 
-KSEQ_INIT(gzFile, gzread)
+KSEQ_INIT(FILE*, read)
 
 int print_seq(int ilmn_trinity, char *append, int to_fasta, char *s[]) {
 	if (ilmn_trinity && (s[0][strlen(s[0])-2] != '/') && s[3] != NULL) {
@@ -36,10 +36,10 @@ int print_seq(int ilmn_trinity, char *append, int to_fasta, char *s[]) {
 }
 
 
-int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_trin) {
+int process_input(FILE* stream, int rev_comp, char *string, int to_fa, int ilmn_trin) {
 
 	kseq_t *seq;
-	seq = kseq_init(stream);
+	seq = kseq_init(fileno(stream));
 	int count = 0;
 	int res = 0;
 	if (rev_comp) {
@@ -48,7 +48,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 			char *sequence_to_print[4] = {[2] = NULL};
 	
 			char quality[seq->qual.l];
-			if (seq->qual.s && !ilmn_trin) {
+			if (seq->qual.s) {
 				for (int i = 0; i < seq->qual.l; ++i)
 				{
 					quality[i] = *(seq->qual.s + seq->qual.l -1 -i);
@@ -104,7 +104,7 @@ int process_input(FILE *stream, int rev_comp, char *string, int to_fa, int ilmn_
 	}
 
 	kseq_destroy(seq);
-	gzclose(stream);
+	fclose(stream);
 	fprintf(stderr,"Sequences parsed: %d\n",count);
 	if (res == -1) {
 		exit(0);
@@ -159,8 +159,8 @@ int main(int argc, char *argv[])
 				exit(1);
 			}
 			read_from_file = 1;
-			gzFile fp;
-			if (!(fp = gzopen(argv[i],"r"))) {
+			FILE* fp;
+			if (!(fp = fopen(argv[i],"r"))) {
 				printf("No %s file found!\n", argv[i]);
 				exit(1);
 			}
@@ -169,8 +169,8 @@ int main(int argc, char *argv[])
 	}
 	if (!read_from_file)
 	{
-		gzFile fp_stdin;
-		fp_stdin = gzdopen(fileno(stdin), "rb");
+		FILE* fp_stdin;
+		fp_stdin = fdopen(fileno(stdin), "rb");
 		process_input(fp_stdin, reverse_complement, string_to_append, to_fasta, illumina_trinity);
 	}
 
