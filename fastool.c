@@ -16,7 +16,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 #include "kseq.h"
 
-KSEQ_INIT(FILE*, read)
+KSEQ_INIT(int, read)
 
 int print_seq(int ilmn_trinity, char *append, int to_fasta, char *s[]) {
 	if (ilmn_trinity && (s[0][strlen(s[0])-2] != '/') && s[3] != NULL) {
