@@ -46,17 +46,13 @@ Append '/2' to the end of the sequence ID and return the reverse complement
 
     fastool --append /2 --rev sequences.fasta > reverse_sequences.fasta
 
-Can read compressed files directly
-
-    fastool --to-fasta sequences.fastq.gz > sequences.fasta
-
 Can process more then one file
 
     fastool --to-fasta --append /1 sequences1.fastq sequences2.fastq sequences3.fastq > all_sequences.fasta
     
-Can be used with pipes
+Can be used with pipes, for example to read from compressed files
 
-    cat sequences.fastq | fastool --to-fasta --rev > reverse_complement.fasta        
+     zcat sequences.fastq.gz | fastool --to-fasta > sequences.fasta
 
 License
 -------
